@@ -6,20 +6,18 @@
 # === Parameters
 #
 # [*source*]
-#   String.  Path to the certificate PEM.
+#   Path to the certificate PEM.
 #   Must specify either content or source.
-#   If source is specified, content is ignored.
 #
 # [*content*]
-#   String.  Content of certificate in PEM format.
+#   Content of certificate in PEM format.
 #   Must specify either content or source.
-#   If source is specified, content is ignored.
 #
 # [*install_path*]
-#   String.  Location to install trusted certificates
+#   Location to install trusted certificates
 #
 # [*certfile_suffix*]
-#   String.  The suffix of the certificate to install.
+#   The suffix of the certificate to install.
 #   Default is OS/Distribution dependent, i.e. 'crt' or 'pem'
 #
 # === Examples
@@ -40,10 +38,10 @@
 # * Justin Lambert <mailto:jlambert@eml.cc>
 #
 define trusted_ca::ca (
-  $source          = undef,
-  $content         = undef,
-  $install_path    = $::trusted_ca::install_path,
-  $certfile_suffix = $::trusted_ca::certfile_suffix,
+  Optional[String] $source = undef,
+  Optional[Pattern['^[A-Za-z0-9+/\n=-]+$']] $content = undef,
+  Stdlib::Absolutepath $install_path = $::trusted_ca::install_path,
+  String $certfile_suffix = $::trusted_ca::certfile_suffix,
 ) {
 
   if ! defined(Class['trusted_ca']) {
@@ -54,17 +52,16 @@ define trusted_ca::ca (
     fail('You must not specify both $source and $content for trusted_ca defined resources')
   }
 
-  if inline_template('<% if /\.#{@certfile_suffix}$/.match(@name) then %>yes<% else %>no<% end %>') == 'yes' {
+  if $name =~ Pattern["\\.${certfile_suffix}$"] {
     $_name = $name
   } else {
     $_name = "${name}.${certfile_suffix}"
   }
 
-
   if $source {
 
-    if inline_template('<% if /\.#{@certfile_suffix}$/.match(@source) then %>yes<% else %>no<% end %>') == 'no' {
-      fail("[Trusted_ca::Ca::${name}]: source must a PEM encoded file with the ${certfile_suffix} extension")
+    if $source !~ Pattern["\\.${certfile_suffix}$"] {
+      fail("[Trusted_ca::Ca::${name}]: source must be a PEM encoded file with the ${certfile_suffix} extension")
     }
 
     file { "${install_path}/${_name}":
@@ -78,8 +75,6 @@ define trusted_ca::ca (
 
   } elsif $content {
 
-    validate_re($content, '^[A-Za-z0-9+/\n=-]+$', "[Trusted_ca::Ca::${name}]: content must a PEM encoded string")
-
     file { "${install_path}/${_name}":
       ensure  => 'file',
       content => $content,
@@ -89,7 +84,7 @@ define trusted_ca::ca (
       group   => 'root',
     }
   } else {
-    fail('You must specify either $source and $content for trusted_ca defined resources')
+    fail('You must specify either $source or $content for trusted_ca defined resources')
   }
 
   # This makes sure the certificate is valid

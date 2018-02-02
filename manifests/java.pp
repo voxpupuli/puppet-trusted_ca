@@ -6,18 +6,16 @@
 # === Parameters
 #
 # [*java_keystore*]
-#   String.  Location of java cacerts file
+#   Location of java cacerts file
 #   This must be specified - there is no default.
 #
 # [*source*]
-#   String.  Path to the certificate PEM.
+#   Path to the certificate PEM.
 #   Must specify either content or source.
-#   If source is specified, content is ignored.
 #
 # [*content*]
-#   String.  Content of certificate in PEM format.
+#   Content of certificate in PEM format.
 #   Must specify either content or source.
-#   If source is specified, content is ignored.
 #
 #
 # === Examples
@@ -38,9 +36,9 @@
 # * Justin Lambert <mailto:jlambert@eml.cc>
 #
 define trusted_ca::java (
-  $java_keystore,
-  $source       = undef,
-  $content      = undef,
+  Stdlib::Absolutepath $java_keystore,
+  Optional[String] $source = undef,
+  Optional[Pattern['^[A-Za-z0-9+/\n=-]+$']] $content = undef,
 ) {
 
   if ! defined(Class['trusted_ca']) {
@@ -73,7 +71,7 @@ define trusted_ca::java (
       group   => 'root',
     }
   } else {
-    fail('You must specify either $source and $content for trusted_ca defined resources')
+    fail('You must specify either $source or $content for trusted_ca defined resources')
   }
 
   # This makes sure the certificate is valid

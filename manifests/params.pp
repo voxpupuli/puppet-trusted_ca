@@ -10,26 +10,6 @@ class trusted_ca::params {
       $install_path = '/etc/pki/ca-trust/source/anchors'
       $certfile_suffix = 'crt'
       $certs_package = 'ca-certificates'
-      case $::operatingsystem {
-        'Amazon': {
-          case $::operatingsystemmajrelease {
-            '2015': {
-            }
-            default: {
-              fail("${::osfamily} ${::operatingsystem} ${::operatingsystemmajrelease} has not been tested with this module.  Please feel free to test and report the results")
-            }
-          }
-        }
-        default: {
-          case $::operatingsystemmajrelease {
-            '6', '7': {
-            }
-            default: {
-              fail("${::osfamily} ${::operatingsystemmajrelease} has not been tested with this module.  Please feel free to test and report the results")
-            }
-          }
-        }
-      }
     }
     'Debian': {
       $path = ['/bin', '/usr/bin', '/usr/sbin']
@@ -37,14 +17,6 @@ class trusted_ca::params {
       $install_path = '/usr/local/share/ca-certificates'
       $certfile_suffix = 'crt'
       $certs_package = 'ca-certificates'
-
-      case $::operatingsystemrelease {
-        '8.2', '10.04', '12.04', '14.04', '15.10': {
-        }
-        default: {
-          fail("${::osfamily} ${::operatingsystemrelease} has not been tested with this module.  Please feel free to test and report the results")
-        }
-      }
     }
     'Suse': {
       $certfile_suffix = 'pem'
@@ -53,13 +25,9 @@ class trusted_ca::params {
           $path = ['/usr/bin']
           $update_command = 'c_rehash'
           $install_path = '/etc/ssl/certs'
-          case $::operatingsystemmajrelease {
-            '11': {
-              $certs_package = 'openssl-certs'
-            }
-            default: {
-              $certs_package = 'ca-certificates'
-            }
+          $certs_package = $::operatingsystemmajrelease ? {
+            '11'    => 'openssl-certs',
+            default => 'ca-certificates',
           }
         }
         'OpenSuSE': {

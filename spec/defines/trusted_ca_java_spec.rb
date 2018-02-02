@@ -7,40 +7,43 @@ describe 'trusted_ca::java' do
         let(:facts) { facts }
         let(:title) { 'mycert' }
         let(:pre_condition) { 'include trusted_ca' }
-        let(:params) { {:source => 'puppet:///data/mycert.crt', :java_keystore => '/etc/alternatives/jre_1.7.0/lib/security/cacerts'} }
+        let(:local_params) { { } }
+        let(:params) { { :java_keystore => '/etc/alternatives/jre_1.7.0/lib/security/cacerts' }.merge(local_params) }
 
         context 'validations' do
           context 'bad source' do
-            let(:params) { { :source => 'foo' } }
-            it { expect { should create_define('trusted_ca::java') }.to raise_error }
+            let(:local_params) { { :source => 'foo' } }
+            it { is_expected.to compile.and_raise_error(/Cannot use relative URLs 'foo' at/) }
           end
 
           context 'bad content' do
-            let(:params) { { :source => Nil, :content => 'foo' } }
-            it { expect { should create_define('trusted_ca::java') }.to raise_error }
+            let(:local_params) { { :content => '^' } }
+            it { is_expected.to compile.and_raise_error(/parameter 'content' expects/) }
           end
 
           context 'specifying both source and content' do
-            let(:params) { { :content => 'foo' } }
-            it { expect { should create_define('trusted_ca::java') }.to raise_error }
+            let(:local_params) { { :source => 'puppet:///data/mycert.crt', :content => 'foo' } }
+            it { is_expected.to compile.and_raise_error(/You must not specify both \$source and \$content/) }
           end
 
           context 'specifying neither source nor content' do
-            let(:params) { { :content => Nil, :source => Nil } }
-            it { expect { should create_define('trusted_ca::java') }.to raise_error }
+            it { is_expected.to compile.and_raise_error(/You must specify either \$source or \$content/) }
           end
 
           context 'not including trusted_ca' do
             let(:pre_condition) {}
-            it { expect { should create_define('trusted_ca::java') }.to raise_error }
+            it { is_expected.to compile.and_raise_error(/You must include the trusted_ca base class/) }
           end
         end
 
-        it { should contain_file('/tmp/mycert-trustedca') }
-        it do
-          should contain_exec('import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts').with(
-            :command => 'keytool -import -noprompt -trustcacerts -alias mycert -file /tmp/mycert-trustedca -keystore /etc/alternatives/jre_1.7.0/lib/security/cacerts -storepass changeit'
-          )
+        context 'correct call' do
+          let(:local_params) { { :content => 'abc' } }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file('/tmp/mycert-trustedca') }
+          it do
+            is_expected.to contain_exec('import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts'). \
+              with_command('keytool -import -noprompt -trustcacerts -alias mycert -file /tmp/mycert-trustedca -keystore /etc/alternatives/jre_1.7.0/lib/security/cacerts -storepass changeit')
+          end
         end
       end
     end

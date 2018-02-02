@@ -7,46 +7,41 @@ describe 'trusted_ca::ca' do
         let(:facts) { facts }
         let(:title) { 'mycert' }
         let(:pre_condition) { 'include trusted_ca' }
-        let(:params) { { :source => 'puppet:///data/mycert.crt' } }
 
         context 'validations' do
           context 'bad source' do
             let(:params) { { :source => 'foo' } }
-            it { expect { should create_define('trusted_ca::ca') }.to raise_error }
+            it { is_expected.to compile.and_raise_error(/source must be a PEM encoded file/) }
           end
 
           context 'bad content' do
-            let(:params) { { :source => Nil, :content => 'foo' } }
-            it { expect { should create_define('trusted_ca::ca') }.to raise_error }
+            let(:params) { { :content => '^' } }
+            it { is_expected.to compile.and_raise_error(/parameter 'content' expects/) }
           end
 
           context 'specifying both source and content' do
-            let(:params) { { :content => 'foo' } }
-            it { expect { should create_define('trusted_ca::ca') }.to raise_error }
+            let(:params) { { :content => 'foo', :source => 'puppet:///data/mycert.crt' } }
+            it { is_expected.to compile.and_raise_error(/You must not specify both \$source and \$content/) }
           end
 
           context 'specifying neither source nor content' do
-            let(:params) { { :content => Nil, :source => Nil } }
-            it { expect { should create_define('trusted_ca::ca') }.to raise_error }
-          end
-
-          context 'not including trusted_ca' do
-            let(:pre_condition) {}
-            it { expect { should create_define('trusted_ca::ca') }.to raise_error }
+            let(:params) { { } }
+            it { is_expected.to compile.and_raise_error(/You must specify either \$source or \$content/) }
           end
         end
 
         context "ca cert" do
-          let(:params) { { :source => 'puppet:///data/mycert.crt' } }
           case facts[:osfamily]
           when "RedHat"
+            source = 'puppet:///data/mycert.crt'
             file = '/etc/pki/ca-trust/source/anchors/mycert.crt'
             notify = 'Exec[validate /etc/pki/ca-trust/source/anchors/mycert.crt]'
           when "Debian"
+            source = 'puppet:///data/mycert.crt'
             file = '/usr/local/share/ca-certificates/mycert.crt'
             notify = 'Exec[validate /usr/local/share/ca-certificates/mycert.crt]'
           when "Suse"
-            let(:params) { { :source => 'puppet:///data/mycert.pem' } }
+            source = 'puppet:///data/mycert.pem'
             if facts[:operatingsystem] == 'SLES'
               file = '/etc/ssl/certs/mycert.pem'
               notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
@@ -55,7 +50,10 @@ describe 'trusted_ca::ca' do
               notify = 'Exec[validate /etc/pki/trust/anchors/mycert.pem]'
             end
           end
-          it { should contain_file(file).with(:notify => notify) }
+
+          let(:params) { { :source => source } }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file(file).that_notifies(notify) }
         end
       end
     end

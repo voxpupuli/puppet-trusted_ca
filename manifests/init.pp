@@ -23,28 +23,21 @@
 # * Justin Lambert <mailto:jlambert@eml.cc>
 #
 class trusted_ca (
-  $certificates_version = $::trusted_ca::params::certificates_version,
-  $path                 = $::trusted_ca::params::path,
-  $install_path         = $::trusted_ca::params::install_path,
-  $update_command       = $::trusted_ca::params::update_command,
-  $certfile_suffix      = $::trusted_ca::params::certfile_suffix,
-  $certs_package        = $::trusted_ca::params::certs_package,
+  String $certificates_version = $::trusted_ca::params::certificates_version,
+  Variant[Array[String], String] $path = $::trusted_ca::params::path,
+  Stdlib::Absolutepath $install_path = $::trusted_ca::params::install_path,
+  String $update_command = $::trusted_ca::params::update_command,
+  String $certfile_suffix = $::trusted_ca::params::certfile_suffix,
+  String $certs_package = $::trusted_ca::params::certs_package,
 ) inherits trusted_ca::params {
 
-  if is_array($path) {
-    $_path = join($path, ':')
-  }
-  else {
-    $_path = $path
-  }
-
   package { $certs_package:
-    ensure  => $certificates_version,
+    ensure => $certificates_version,
   }
 
   exec { 'update_system_certs':
     command     => $update_command,
-    path        => $_path,
+    path        => $path,
     logoutput   => on_failure,
     refreshonly => true,
   }
