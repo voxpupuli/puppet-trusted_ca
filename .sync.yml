@@ -1,0 +1,9 @@
+---
+.travis.yml:
+  docker_sets:
+    - set: centos7-64
+    - set: debian9-64
+    - set: ubuntu1604-64
+    - set: ubuntu1804-64
+spec/acceptance/nodesets/ec2/windows-2016-base-x64.yml:
+  delete: true

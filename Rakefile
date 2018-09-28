@@ -1,68 +1,92 @@
-require 'rubygems'
-require 'bundler/setup'
-
 require 'puppetlabs_spec_helper/rake_tasks'
-require 'puppet/version'
-require 'puppet/vendor/semantic/lib/semantic' unless Puppet.version.to_f < 3.6
-require 'puppet-lint/tasks/puppet-lint'
-require 'puppet-syntax/tasks/puppet-syntax'
-require 'metadata-json-lint/rake_task'
 
-# These gems aren't always present, for instance
-# on Travis with --without development
+# load optional tasks for releases
+# only available if gem group releases is installed
 begin
   require 'puppet_blacksmith/rake_tasks'
-rescue LoadError # rubocop:disable Lint/HandleExceptions
+  require 'voxpupuli/release/rake_tasks'
+  require 'puppet-strings/tasks'
+rescue LoadError
 end
 
-begin
-  require 'rubocop/rake_task'
-rescue LoadError # rubocop:disable Lint/HandleExceptions
-end
-
-exclude_paths = [
-  "bundle/**/*",
-  "pkg/**/*",
-  "vendor/**/*",
-  "spec/**/*",
-]
-
-# Coverage from puppetlabs-spec-helper requires rcov which
-# doesn't work in anything since 1.8.7
-Rake::Task[:coverage].clear
-
-Rake::Task[:lint].clear
-
-PuppetLint.configuration.relative = true
-PuppetLint.configuration.disable_80chars
-PuppetLint.configuration.disable_class_inherits_from_params_class
-PuppetLint.configuration.disable_class_parameter_defaults
+PuppetLint.configuration.log_format = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
 PuppetLint.configuration.fail_on_warnings = true
+PuppetLint.configuration.send('relative')
+PuppetLint.configuration.send('disable_140chars')
+PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 
-PuppetLint::RakeTask.new :lint do |config|
-  config.ignore_paths = exclude_paths
-end
-
+exclude_paths = %w(
+  pkg/**/*
+  vendor/**/*
+  .vendor/**/*
+  spec/**/*
+)
+PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
 
-desc "Run acceptance tests"
+desc 'Auto-correct puppet-lint offenses'
+task 'lint:auto_correct' do
+  PuppetLint.configuration.fix = true
+  Rake::Task[:lint].invoke
+end
+
+desc 'Run acceptance tests'
 RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-desc "Populate CONTRIBUTORS file"
-task :contributors do
-  system("git log --format='%aN' | sort -u > CONTRIBUTORS")
+desc 'Run tests metadata_lint, release_checks'
+task test: [
+  :metadata_lint,
+  :release_checks,
+]
+
+desc "Run main 'test' task and report merged results to coveralls"
+task test_with_coveralls: [:test] do
+  if Dir.exist?(File.expand_path('../lib', __FILE__))
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task['coveralls:push'].invoke
+  else
+    puts 'Skipping reporting to coveralls.  Module has no lib dir'
+  end
 end
 
+desc "Print supported beaker sets"
+task 'beaker_sets', [:directory] do |t, args|
+  directory = args[:directory]
 
-## Need to pull rubocop out of ruby 1.8.7
-tests = [:metadata_lint, :syntax, :lint]
-if RUBY_VERSION > '1.9'
-  tests << :rubocop
-  RuboCop::RakeTask.new
+  metadata = JSON.load(File.read('metadata.json'))
+
+  (metadata['operatingsystem_support'] || []).each do |os|
+    (os['operatingsystemrelease'] || []).each do |release|
+      if directory
+        beaker_set = "#{directory}/#{os['operatingsystem'].downcase}-#{release}"
+      else
+        beaker_set = "#{os['operatingsystem'].downcase}-#{release}-x64"
+      end
+
+      filename = "spec/acceptance/nodesets/#{beaker_set}.yml"
+
+      puts beaker_set if File.exists? filename
+    end
+  end
 end
-tests << :spec
 
-desc "Run syntax, lint, and spec tests."
-task :test => tests
+begin
+  require 'github_changelog_generator/task'
+  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+    version = (Blacksmith::Modulefile.new).version
+    config.future_release = "v#{version}" if version =~ /^\d+\.\d+.\d+$/
+    config.header = "# Changelog\n\nAll notable changes to this project will be documented in this file.\nEach new release typically also includes the latest modulesync defaults.\nThese should not affect the functionality of the module."
+    config.exclude_labels = %w{duplicate question invalid wontfix wont-fix modulesync skip-changelog}
+    config.user = 'voxpupuli'
+    metadata_json = File.join(File.dirname(__FILE__), 'metadata.json')
+    metadata = JSON.load(File.read(metadata_json))
+    config.project = metadata['name']
+  end
+rescue LoadError
+end
+# vim: syntax=ruby
