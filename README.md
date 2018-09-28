@@ -1,5 +1,5 @@
-[![Puppet Forge](http://img.shields.io/puppetforge/v/jlambert121/trusted_ca.svg)](https://forge.puppetlabs.com/jlambert121/trusted_ca)
-[![Build Status](https://travis-ci.org/jlambert121/jlambert121-trusted_ca.png?branch=master)](https://travis-ci.org/jlambert121/jlambert121-trusted_ca)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-trusted_ca.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-trusted_ca)
 
 #### Table of Contents
 
@@ -35,7 +35,7 @@ Many organizations use self-signed SSL certificates for internal services that n
 To install trusted_ca
 
 ```
-    puppet module install jlambert121-trusted_ca
+    puppet module install puppet-trusted_ca
 ```
 
 Dependencies:
@@ -162,10 +162,12 @@ This module assumes the keytool and openssl utilities are available.
 
 ## Development
 
-Improvements and bug fixes are greatly appreciated.  See the [contributing guide](https://github.com/jlambert121/jlambert121-trusted_ca/blob/master/CONTRIBUTING.md) for
+Improvements and bug fixes are greatly appreciated.  See the [contributing guide](https://github.com/voxpupuli/puppet-trusted_ca/blob/master/CONTRIBUTING.md) for
 information on adding and validating tests for PRs.
 
 ## Changelog / Contributors
 
-[Changelog](https://github.com/jlambert121/jlambert121-trusted_ca/blob/master/CHANGELOG)
-[Contributors](https://github.com/jlambert121/trusted_ca/graphs/contributors)
+This module was originally known as jlambert121/trusted_ca but forked to Voxpupuli because the original author no longer responded.
+
+[Changelog](https://github.com/voxpupuli/puppet-trusted_ca/blob/master/CHANGELOG)
+[Contributors](https://github.com/voxpupuli/trusted_ca/graphs/contributors)

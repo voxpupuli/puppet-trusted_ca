@@ -1,12 +1,12 @@
 {
-  "name": "jlambert121-trusted_ca",
+  "name": "puppet-trusted_ca",
   "version": "1.1.0",
-  "author": "Justin Lambert <jlambert@letsjlambert121.com>",
+  "author": "Vox Pupuli",
   "license": "Apache-2.0",
   "summary": "Manages trusted_ca",
-  "source": "https://github.com/jlambert121/jlambert121-trusted_ca",
-  "project_page": "https://github.com/jlambert121/jlambert121-trusted_ca",
-  "issues_url": "https://github.com/jlambert121/jlambert121-trusted_ca/issues",
+  "source": "https://github.com/voxpupuli/puppet-trusted_ca",
+  "project_page": "https://github.com/voxpupuli/puppet-trusted_ca",
+  "issues_url": "https://github.com/voxpupuli/puppet-trusted_ca/issues",
   "tags": ["trusted_ca", "ssl"],
   "operatingsystem_support": [
     { "operatingsystem": "RedHat", "operatingsystemrelease": [ "6", "7" ] },
