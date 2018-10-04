@@ -7,37 +7,42 @@ describe 'trusted_ca::java' do
         let(:facts) { facts }
         let(:title) { 'mycert' }
         let(:pre_condition) { 'include trusted_ca' }
-        let(:local_params) { { } }
-        let(:params) { { :java_keystore => '/etc/alternatives/jre_1.7.0/lib/security/cacerts' }.merge(local_params) }
+        let(:local_params) { {} }
+        let(:params) { { java_keystore: '/etc/alternatives/jre_1.7.0/lib/security/cacerts' }.merge(local_params) }
 
         context 'validations' do
           context 'bad source' do
-            let(:local_params) { { :source => 'foo' } }
-            it { is_expected.to compile.and_raise_error(/Cannot use relative URLs 'foo' at/) }
+            let(:local_params) { { source: 'foo' } }
+
+            it { is_expected.to compile.and_raise_error(%r{Cannot use relative URLs 'foo' at}) }
           end
 
           context 'bad content' do
-            let(:local_params) { { :content => '^' } }
-            it { is_expected.to compile.and_raise_error(/parameter 'content' expects/) }
+            let(:local_params) { { content: '^' } }
+
+            it { is_expected.to compile.and_raise_error(%r{parameter 'content' expects}) }
           end
 
           context 'specifying both source and content' do
-            let(:local_params) { { :source => 'puppet:///data/mycert.crt', :content => 'foo' } }
-            it { is_expected.to compile.and_raise_error(/You must not specify both \$source and \$content/) }
+            let(:local_params) { { source: 'puppet:///data/mycert.crt', content: 'foo' } }
+
+            it { is_expected.to compile.and_raise_error(%r{You must not specify both \$source and \$content}) }
           end
 
           context 'specifying neither source nor content' do
-            it { is_expected.to compile.and_raise_error(/You must specify either \$source or \$content/) }
+            it { is_expected.to compile.and_raise_error(%r{You must specify either \$source or \$content}) }
           end
 
           context 'not including trusted_ca' do
             let(:pre_condition) {}
-            it { is_expected.to compile.and_raise_error(/You must include the trusted_ca base class/) }
+
+            it { is_expected.to compile.and_raise_error(%r{You must include the trusted_ca base class}) }
           end
         end
 
         context 'correct call' do
-          let(:local_params) { { :content => 'abc' } }
+          let(:local_params) { { content: 'abc' } }
+
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_file('/tmp/mycert-trustedca') }
           it do
