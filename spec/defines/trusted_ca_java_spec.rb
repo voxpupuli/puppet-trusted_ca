@@ -11,12 +11,6 @@ describe 'trusted_ca::java' do
         let(:params) { { java_keystore: '/etc/alternatives/jre_1.7.0/lib/security/cacerts' }.merge(local_params) }
 
         context 'validations' do
-          context 'bad source' do
-            let(:local_params) { { source: 'foo' } }
-
-            it { is_expected.to compile.and_raise_error(%r{Cannot use relative URLs 'foo' at}) }
-          end
-
           context 'bad content' do
             let(:local_params) { { content: '^' } }
 
