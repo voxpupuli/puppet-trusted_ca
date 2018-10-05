@@ -1,4 +1,4 @@
-[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-trusted_ca.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-trusted_ca)
 
 #### Table of Contents
