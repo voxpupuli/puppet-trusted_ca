@@ -153,10 +153,15 @@ String.  Location of of the java cacerts keystore file.
 ## Limitations
 
 Tested on:
-* CentOS 6, 7
-* Ubuntu Server 10.04, 12.04, 14.04
+* EL 6
+* EL 7
+* Debian 8
+* Debian 9
 * SLES 11 SP3
-* OpenSuSE 13.1
+* SLES 12
+* Ubuntu 14.04 LTS
+* Ubuntu 16.04 LTS
+* Ubuntu 18.04 LTS
 
 This module assumes the keytool and openssl utilities are available.
 
