@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v3.0.0) (2019-05-30)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v2.0.0...v3.0.0)
+
+**Breaking changes:**
+
+- drop puppet 4 support. require at least puppet 5.5.8 [\#11](https://github.com/voxpupuli/puppet-trusted_ca/pull/11) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Use ensure\_packages to allow multiple package declarations [\#9](https://github.com/voxpupuli/puppet-trusted_ca/pull/9) ([dol](https://github.com/dol))
+
+**Closed issues:**
+
+- Package\[ca-certificates\] is already declared at [\#8](https://github.com/voxpupuli/puppet-trusted_ca/issues/8)
+
+**Merged pull requests:**
+
+- allow puppetlabs-stdlib 6.x [\#10](https://github.com/voxpupuli/puppet-trusted_ca/pull/10) ([mmoll](https://github.com/mmoll))
+- \(docs\) Match documentation to metadata [\#6](https://github.com/voxpupuli/puppet-trusted_ca/pull/6) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v2.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v2.0.0) (2018-10-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/1.1.0...v2.0.0)
