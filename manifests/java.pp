@@ -78,7 +78,7 @@ define trusted_ca::java (
   exec {"validate /tmp/${name}-trustedca":
     command     => "openssl x509 -in /tmp/${name}-trustedca -noout",
     logoutput   => on_failure,
-    path        => $::trusted_ca::path,
+    path        => $trusted_ca::path,
     notify      => Exec["import /tmp/${name}-trustedca to jks ${java_keystore}"],
     returns     => 0,
     refreshonly => true,
@@ -87,7 +87,7 @@ define trusted_ca::java (
   exec { "import /tmp/${name}-trustedca to jks ${java_keystore}":
     command     => "keytool -import -noprompt -trustcacerts -alias ${name} -file /tmp/${name}-trustedca -keystore ${java_keystore} -storepass changeit",
     cwd         => '/tmp',
-    path        => $::trusted_ca::path,
+    path        => $trusted_ca::path,
     logoutput   => on_failure,
     unless      => "echo '' | keytool -list -keystore ${java_keystore} | grep ${name}",
     require     => File["/tmp/${name}-trustedca"],
