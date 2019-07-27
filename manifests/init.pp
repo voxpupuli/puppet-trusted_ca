@@ -23,12 +23,12 @@
 # * Justin Lambert <mailto:jlambert@eml.cc>
 #
 class trusted_ca (
-  String $certificates_version = $::trusted_ca::params::certificates_version,
-  Variant[Array[String], String] $path = $::trusted_ca::params::path,
-  Stdlib::Absolutepath $install_path = $::trusted_ca::params::install_path,
-  String $update_command = $::trusted_ca::params::update_command,
-  String $certfile_suffix = $::trusted_ca::params::certfile_suffix,
-  String $certs_package = $::trusted_ca::params::certs_package,
+  String $certificates_version = $trusted_ca::params::certificates_version,
+  Variant[Array[String], String] $path = $trusted_ca::params::path,
+  Stdlib::Absolutepath $install_path = $trusted_ca::params::install_path,
+  String $update_command = $trusted_ca::params::update_command,
+  String $certfile_suffix = $trusted_ca::params::certfile_suffix,
+  String $certs_package = $trusted_ca::params::certs_package,
 ) inherits trusted_ca::params {
 
   ensure_packages([$certs_package], {ensure => $certificates_version})

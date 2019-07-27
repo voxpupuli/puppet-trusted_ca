@@ -40,8 +40,8 @@
 define trusted_ca::ca (
   Optional[String] $source = undef,
   Optional[Pattern['^[A-Za-z0-9+/\n=-]+$']] $content = undef,
-  Stdlib::Absolutepath $install_path = $::trusted_ca::install_path,
-  String $certfile_suffix = $::trusted_ca::certfile_suffix,
+  Stdlib::Absolutepath $install_path = $trusted_ca::install_path,
+  String $certfile_suffix = $trusted_ca::certfile_suffix,
 ) {
 
   if ! defined(Class['trusted_ca']) {
@@ -91,7 +91,7 @@ define trusted_ca::ca (
   exec {"validate ${install_path}/${_name}":
     command     => "openssl x509 -in ${install_path}/${_name} -noout",
     logoutput   => on_failure,
-    path        => $::trusted_ca::path,
+    path        => $trusted_ca::path,
     notify      => Exec['update_system_certs'],
     returns     => 0,
     refreshonly => true,
