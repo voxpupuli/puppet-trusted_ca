@@ -45,13 +45,20 @@ describe 'trusted_ca::ca' do
             file = '/usr/local/share/ca-certificates/mycert.crt'
             notify = 'Exec[validate /usr/local/share/ca-certificates/mycert.crt]'
           when 'Suse'
-            source = 'puppet:///data/mycert.pem'
             if facts[:operatingsystem] == 'SLES'
-              file = '/etc/ssl/certs/mycert.pem'
-              notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
+              if facts[:operatingsystemmajrelease] == '11'
+                file = '/etc/ssl/certs/mycert.pem'
+                notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
+                source = 'puppet:///data/mycert.pem'
+              else
+                file = '/etc/pki/trust/anchors/mycert.crt'
+                notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
+                source = 'puppet:///data/mycert.crt'
+              end
             else
-              file = '/etc/pki/trust/anchors/mycert.pem'
-              notify = 'Exec[validate /etc/pki/trust/anchors/mycert.pem]'
+              file = '/etc/pki/trust/anchors/mycert.crt'
+              notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
+              source = 'puppet:///data/mycert.crt'
             end
           end
 
