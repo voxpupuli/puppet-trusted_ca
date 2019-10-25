@@ -19,15 +19,23 @@ class trusted_ca::params {
       $certs_package = 'ca-certificates'
     }
     'Suse': {
-      $certfile_suffix = 'pem'
       case $::operatingsystem {
         'SLES': {
-          $path = ['/usr/bin']
-          $update_command = 'c_rehash'
-          $install_path = '/etc/ssl/certs'
-          $certs_package = $::operatingsystemmajrelease ? {
-            '11'    => 'openssl-certs',
-            default => 'ca-certificates',
+          case $::operatingsystemmajrelease {
+            '11': {
+              $path = ['/usr/bin']
+              $update_command = 'c_rehash'
+              $install_path = '/etc/ssl/certs'
+              $certs_package = 'openssl-certs'
+              $certfile_suffix = 'pem'
+            }
+            default: {
+              $path = ['/usr/sbin', '/usr/bin']
+              $update_command = 'update-ca-certificates'
+              $install_path = '/etc/pki/trust/anchors'
+              $certs_package = 'ca-certificates'
+              $certfile_suffix = 'crt'
+            }
           }
         }
         'OpenSuSE': {
@@ -35,6 +43,7 @@ class trusted_ca::params {
           $update_command = 'update-ca-certificates'
           $install_path = '/etc/pki/trust/anchors'
           $certs_package = 'ca-certificates'
+          $certfile_suffix = 'crt'
         }
         default: {
           fail("${::osfamily}/${::operatingsystem} not supported")
