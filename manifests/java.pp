@@ -85,13 +85,12 @@ define trusted_ca::java (
   }
 
   exec { "import /tmp/${name}-trustedca to jks ${java_keystore}":
-    command     => "keytool -import -noprompt -trustcacerts -alias ${name} -file /tmp/${name}-trustedca -keystore ${java_keystore} -storepass changeit",
-    cwd         => '/tmp',
-    path        => $trusted_ca::path,
-    logoutput   => on_failure,
-    unless      => "echo '' | keytool -list -keystore ${java_keystore} | grep ${name}",
-    require     => File["/tmp/${name}-trustedca"],
-    refreshonly => true,
+    command   => "keytool -import -noprompt -trustcacerts -alias ${name} -file /tmp/${name}-trustedca -keystore ${java_keystore} -storepass changeit",
+    cwd       => '/tmp',
+    path      => $trusted_ca::path,
+    logoutput => on_failure,
+    unless    => "echo '' | keytool -list -keystore ${java_keystore} | grep ${name}",
+    require   => File["/tmp/${name}-trustedca"],
   }
 
 }
