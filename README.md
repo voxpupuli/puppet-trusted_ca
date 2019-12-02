@@ -158,8 +158,8 @@ Tested on:
 * Debian 8
 * Debian 9
 * SLES 11 SP3
-* SLES 12
-* Ubuntu 14.04 LTS
+* SLES 12 SP4
+* SLES 15 SP1
 * Ubuntu 16.04 LTS
 * Ubuntu 18.04 LTS
 
