@@ -1,5 +1,9 @@
-[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-trusted_ca.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-trusted_ca)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-trusted_ca/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-trusted_ca)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
 
 #### Table of Contents
 
