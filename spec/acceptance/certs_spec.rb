@@ -10,7 +10,7 @@ describe 'trusted_ca' do
       apache::vhost { 'trusted_ca':
         docroot    => '/tmp',
         port       => 443,
-        servername => $::fqdn,
+        servername => $facts['fqdn'],
         ssl        => true,
         ssl_cert   => '/etc/ssl-secure/test.crt',
         ssl_key    => '/etc/ssl-secure/test.key',

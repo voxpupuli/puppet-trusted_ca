@@ -3,7 +3,7 @@
 class trusted_ca::params {
   $certificates_version = 'latest'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $path = [ '/usr/bin', '/bin']
       $update_command = 'update-ca-trust enable && update-ca-trust'
@@ -19,9 +19,9 @@ class trusted_ca::params {
       $certs_package = 'ca-certificates'
     }
     'Suse': {
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'SLES': {
-          case $::operatingsystemmajrelease {
+          case $facts['os']['release']['major'] {
             '11': {
               $path = ['/usr/bin']
               $update_command = 'c_rehash'
@@ -46,12 +46,12 @@ class trusted_ca::params {
           $certfile_suffix = 'crt'
         }
         default: {
-          fail("${::osfamily}/${::operatingsystem} not supported")
+          fail("${facts['os']['family']}/${facts['os']['name']} not supported")
         }
       }
     }
     default: {
-      fail("${::osfamily}/${::operatingsystem} ${::operatingsystemrelease} not supported")
+      fail("${facts['os']['family']}/${facts['os']['name']} ${facts['os']['release']['full']} not supported")
     }
   }
 }
