@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v3.1.0) (2020-05-11)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v3.0.0...v3.1.0)
+
+**Breaking changes:**
+
+- drop Ubuntu 14.04 support [\#16](https://github.com/voxpupuli/puppet-trusted_ca/pull/16) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add EL8 support [\#24](https://github.com/voxpupuli/puppet-trusted_ca/pull/24) ([ehelms](https://github.com/ehelms))
+- Add Debian 10 support [\#21](https://github.com/voxpupuli/puppet-trusted_ca/pull/21) ([ekohl](https://github.com/ekohl))
+- Make aliases stored in java keystore case insensitive [\#18](https://github.com/voxpupuli/puppet-trusted_ca/pull/18) ([pseiler](https://github.com/pseiler))
+
+**Fixed bugs:**
+
+- keystore needs to be checked on each puppet run [\#15](https://github.com/voxpupuli/puppet-trusted_ca/pull/15) ([pseiler](https://github.com/pseiler))
+- fixed behaviour for SLES \> 11, support SLES 15 [\#14](https://github.com/voxpupuli/puppet-trusted_ca/pull/14) ([pseiler](https://github.com/pseiler))
+
+**Merged pull requests:**
+
+- Use voxpupuli-acceptance [\#23](https://github.com/voxpupuli/puppet-trusted_ca/pull/23) ([ekohl](https://github.com/ekohl))
+- updated supported distributions in README [\#19](https://github.com/voxpupuli/puppet-trusted_ca/pull/19) ([pseiler](https://github.com/pseiler))
+- Remove duplicate CONTRIBUTING.md file [\#17](https://github.com/voxpupuli/puppet-trusted_ca/pull/17) ([dhoppe](https://github.com/dhoppe))
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v3.0.0) (2019-05-30)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v2.0.0...v3.0.0)
