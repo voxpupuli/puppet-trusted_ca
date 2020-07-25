@@ -43,7 +43,6 @@ define trusted_ca::ca (
   Stdlib::Absolutepath $install_path = $trusted_ca::install_path,
   String $certfile_suffix = $trusted_ca::certfile_suffix,
 ) {
-
   if ! defined(Class['trusted_ca']) {
     fail('You must include the trusted_ca base class before using any trusted_ca defined resources')
   }
@@ -59,7 +58,6 @@ define trusted_ca::ca (
   }
 
   if $source {
-
     if $source !~ Pattern["\\.${certfile_suffix}$"] {
       fail("[Trusted_ca::Ca::${name}]: source must be a PEM encoded file with the ${certfile_suffix} extension")
     }
@@ -72,9 +70,7 @@ define trusted_ca::ca (
       owner  => 'root',
       group  => 'root',
     }
-
   } elsif $content {
-
     file { "${install_path}/${_name}":
       ensure  => 'file',
       content => $content,
@@ -88,7 +84,7 @@ define trusted_ca::ca (
   }
 
   # This makes sure the certificate is valid
-  exec {"validate ${install_path}/${_name}":
+  exec { "validate ${install_path}/${_name}":
     command     => "openssl x509 -in ${install_path}/${_name} -noout",
     logoutput   => on_failure,
     path        => $trusted_ca::path,
@@ -96,5 +92,4 @@ define trusted_ca::ca (
     returns     => 0,
     refreshonly => true,
   }
-
 }
