@@ -37,13 +37,25 @@ describe 'trusted_ca' do
             it { is_expected.to contain_exec('update_system_certs').with(refreshonly: true, path: '/usr/bin') }
           end
         end
-
-        context 'fail on unsupported system' do
-          let(:facs) { { osfamily: 'FreeBSD', operatingsystemrelease: '1.2.3' } }
-
-          it { expect { is_expected.to create_class('trusted_ca').to raise_error(Puppet::Error) } }
-        end
       end
     end
+  end
+
+  context 'fail on unsupported system' do
+    let(:facts) do
+      {
+        os: {
+          family: 'FreeBSD',
+          name: 'FreeBSD',
+          release: {
+            full: '1.2.3'
+          }
+        },
+        osfamily: 'FreeBSD',
+        operatingsystemrelease: '1.2.3'
+      }
+    end
+
+    it { is_expected.to compile.and_raise_error(%r{not supported}) }
   end
 end

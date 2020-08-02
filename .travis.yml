@@ -1,4 +1,5 @@
 ---
+os: linux
 dist: bionic
 language: ruby
 cache: bundler
@@ -7,7 +8,7 @@ before_install:
   - bundle --version
 script:
   - 'bundle exec rake $CHECK'
-matrix:
+jobs:
   fast_finish: true
   include:
   - rvm: 2.4.4
@@ -32,11 +33,11 @@ matrix:
     services: docker
   - rvm: 2.5.3
     bundler_args: --without development release
-    env: BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_setfile=centos7-64{hostname=centos8-64.example.com} CHECK=beaker
+    env: BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_setfile=centos8-64{hostname=centos8-64.example.com} CHECK=beaker
     services: docker
   - rvm: 2.5.3
     bundler_args: --without development release
-    env: BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_setfile=centos7-64{hostname=centos8-64.example.com} CHECK=beaker
+    env: BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_setfile=centos8-64{hostname=centos8-64.example.com} CHECK=beaker
     services: docker
   - rvm: 2.5.3
     bundler_args: --without development release
@@ -92,7 +93,7 @@ notifications:
       - "chat.freenode.org#voxpupuli-notifications"
 deploy:
   provider: puppetforge
-  user: puppet
+  username: puppet
   password:
     secure: "RlXD9MDfKavdsjPCtq8XmqXTszraam9oFNJlnd+tryJQ/fN10Q8l36+UcSbxUgBF9Wyy8muyjUiLB9bhje1IQUcsATXpa0YgWdoTIhv18SmIA58a1eXt52TqeLG73aSgu2ZCebc9SkSRV+vNVXcPleIdb9dX8HjsJOGk1sw0jGwDO93nSuInKG2/rl0kevbI5BcY6G+o2dInI4Nknq0nxpzcw8X602j/xak95lLxQmQfaMrXvKUAdp4XuLV8YfbahQhD7bCe4b6hudqVi4/I7Xag8SonX9pMZJzC5J0USjDqG01BQLXAz2KDrjmxf7Hy4KI8BIkZonvjE2dx23NRM28HNDhlcMRV6k9p2SSCR5CZKzwRXOh38OBNL/vpHnpTk5GOEqSMwD8Zt0jJpGNIMR6i4a5fcdBznp3FXqc/28gXduAAn2lGBG4lb8AMJ40J5bgmPYJvoYMxrS2rwfFJ91LYk3UK2wNhbGF772+0sRQi0iyOUEoxa3D0Jkt9PrsYXQ6rxW6dNkkZFGdE0Uni6Mm4mNZkWcK2Ke+wRGSetIv2vyABY5LJinBLjYH8T4LZYrmQ/LALuIhjJWhxXvWA94/brwIXF0Nkou9vEKu6uT+bBHbGPrLmvPkLsnHxGV515M0NTUFCQ8coPpYHgacJkpfTP9IZk7QHFUi3LWNG1VI="
   on:

@@ -5,7 +5,7 @@ class trusted_ca::params {
 
   case $facts['os']['family'] {
     'RedHat': {
-      $path = [ '/usr/bin', '/bin']
+      $path = ['/usr/bin', '/bin']
       $update_command = 'update-ca-trust enable && update-ca-trust'
       $install_path = '/etc/pki/ca-trust/source/anchors'
       $certfile_suffix = 'crt'

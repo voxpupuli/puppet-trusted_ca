@@ -40,7 +40,6 @@ define trusted_ca::java (
   Optional[String] $source = undef,
   Optional[Pattern['^[A-Za-z0-9+/\n=-]+$']] $content = undef,
 ) {
-
   if ! defined(Class['trusted_ca']) {
     fail('You must include the trusted_ca base class before using any trusted_ca defined resources')
   }
@@ -50,7 +49,6 @@ define trusted_ca::java (
   }
 
   if $source {
-
     file { "/tmp/${name}-trustedca":
       ensure => 'file',
       source => $source,
@@ -59,9 +57,7 @@ define trusted_ca::java (
       owner  => 'root',
       group  => 'root',
     }
-
   } elsif $content {
-
     file { "/tmp/${name}-trustedca":
       ensure  => 'file',
       content => $content,
@@ -75,7 +71,7 @@ define trusted_ca::java (
   }
 
   # This makes sure the certificate is valid
-  exec {"validate /tmp/${name}-trustedca":
+  exec { "validate /tmp/${name}-trustedca":
     command     => "openssl x509 -in /tmp/${name}-trustedca -noout",
     logoutput   => on_failure,
     path        => $trusted_ca::path,
@@ -92,5 +88,4 @@ define trusted_ca::java (
     unless    => "echo '' | keytool -list -keystore ${java_keystore} | grep -i ${name}",
     require   => File["/tmp/${name}-trustedca"],
   }
-
 }
