@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v4.0.0) (2021-06-02)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v3.1.0...v4.0.0)
+
+This release drops compatibility with EOL distros. This means EL6 (which can no longer be tested since the CentOS repos have been removed), Ubuntu 16.04 (EOL since April 2021) and Debian 8 (LTS is EOL since July 2020, though there is ELTS).
+
+Puppet 5 support is also dropped since it went EOL in February 2021.
+
+It should be noted that this it metadata-only. No code was changed.
+
+**Breaking changes:**
+
+- Drop Puppet 5 support [\#36](https://github.com/voxpupuli/puppet-trusted_ca/pull/36) ([ekohl](https://github.com/ekohl))
+- Drop Ubuntu 16.04 and Debian 8 support [\#35](https://github.com/voxpupuli/puppet-trusted_ca/pull/35) ([ekohl](https://github.com/ekohl))
+- Drop EL6 support [\#29](https://github.com/voxpupuli/puppet-trusted_ca/pull/29) ([ekohl](https://github.com/ekohl))
+
+**Implemented enhancements:**
+
+- Mark compatible with Ubuntu 20.04 [\#33](https://github.com/voxpupuli/puppet-trusted_ca/pull/33) ([ekohl](https://github.com/ekohl))
+- Mark compatible with Puppet 7 [\#32](https://github.com/voxpupuli/puppet-trusted_ca/pull/32) ([ekohl](https://github.com/ekohl))
+- Mark compatible with puppetlabs/stdlib 7.x [\#31](https://github.com/voxpupuli/puppet-trusted_ca/pull/31) ([ekohl](https://github.com/ekohl))
+
 ## [v3.1.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v3.1.0) (2020-05-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v3.0.0...v3.1.0)
