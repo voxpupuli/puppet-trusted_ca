@@ -9,12 +9,6 @@ describe 'trusted_ca::ca' do
         let(:pre_condition) { 'include trusted_ca' }
 
         context 'validations' do
-          context 'bad source' do
-            let(:params) { { source: 'foo' } }
-
-            it { is_expected.to compile.and_raise_error(%r{source must be a PEM encoded file}) }
-          end
-
           context 'bad content' do
             let(:params) { { content: '^' } }
 
