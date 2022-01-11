@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'trusted_ca' do
@@ -44,6 +46,8 @@ describe 'trusted_ca' do
       it { is_expected.to be_installed }
     end
 
+    # https://github.com/rubocop/rubocop-rspec/issues/1231
+    # rubocop:disable RSpec/RepeatedExampleGroupBody
     describe command("/usr/bin/curl https://#{fact('hostname')}.example.com:443") do
       its(:exit_status) { is_expected.to eq 0 }
     end
@@ -51,5 +55,6 @@ describe 'trusted_ca' do
     describe command("cd /root && /usr/bin/java SSLPoke #{fact('hostname')}.example.com 443") do
       its(:exit_status) { is_expected.to eq 0 }
     end
+    # rubocop:enable RSpec/RepeatedExampleGroupBody
   end
 end
