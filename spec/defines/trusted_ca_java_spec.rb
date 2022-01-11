@@ -30,7 +30,7 @@ describe 'trusted_ca::java' do
           end
 
           context 'not including trusted_ca' do
-            let(:pre_condition) {}
+            let(:pre_condition) { nil }
 
             it { is_expected.to compile.and_raise_error(%r{You must include the trusted_ca base class}) }
           end
