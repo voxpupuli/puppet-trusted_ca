@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'trusted_ca::java' do
@@ -39,6 +41,7 @@ describe 'trusted_ca::java' do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_file('/tmp/mycert-trustedca') }
+
           it do
             is_expected.to contain_exec('import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts'). \
               with_command('keytool -import -noprompt -trustcacerts -alias mycert -file /tmp/mycert-trustedca -keystore /etc/alternatives/jre_1.7.0/lib/security/cacerts -storepass changeit')
