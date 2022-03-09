@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.1.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v4.1.0) (2022-03-09)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Drop requirement for CA sources to use platform-specific suffix [\#40](https://github.com/voxpupuli/puppet-trusted_ca/pull/40) ([optiz0r](https://github.com/optiz0r))
+- Allow stdlib 8.x dependencies [\#39](https://github.com/voxpupuli/puppet-trusted_ca/pull/39) ([smortex](https://github.com/smortex))
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v4.0.0) (2021-06-02)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v3.1.0...v4.0.0)
