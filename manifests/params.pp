@@ -1,7 +1,7 @@
 # Class trusted_ca::params
 #
 class trusted_ca::params {
-  $certificates_version = 'latest'
+  $certificates_version = 'installed'
 
   case $facts['os']['family'] {
     'RedHat': {

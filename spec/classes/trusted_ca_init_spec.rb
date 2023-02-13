@@ -16,7 +16,7 @@ describe 'trusted_ca' do
                          end
 
           context 'default' do
-            it { is_expected.to contain_package(package_name).with(ensure: 'latest') }
+            it { is_expected.to contain_package(package_name).with(ensure: 'installed') }
           end
 
           context 'set version' do
