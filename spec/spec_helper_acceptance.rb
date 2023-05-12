@@ -3,8 +3,8 @@
 require 'voxpupuli/acceptance/spec_helper_acceptance'
 
 configure_beaker do |host|
-  install_module_from_forge_on(host, 'puppetlabs/apache', '>= 0 < 11.0.0')
-  install_module_from_forge_on(host, 'puppetlabs/java', '>= 0 < 11.0.0')
+  install_puppet_module_via_pmt_on(host, 'puppetlabs-apache')
+  install_puppet_module_via_pmt_on(host, 'puppetlabs-java')
 
   # testing dependencies
   scp_to(host, File.join(__dir__, 'acceptance', 'helpers', 'SSLPoke.class'), '/root/SSLPoke.class')
