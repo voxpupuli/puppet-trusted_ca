@@ -30,7 +30,7 @@ class trusted_ca (
   String $certfile_suffix = $trusted_ca::params::certfile_suffix,
   String $certs_package = $trusted_ca::params::certs_package,
 ) inherits trusted_ca::params {
-  ensure_packages([$certs_package], { ensure => $certificates_version })
+  stdlib::ensure_packages([$certs_package], { ensure => $certificates_version })
 
   exec { 'update_system_certs':
     command     => $update_command,
