@@ -1,41 +1,32 @@
-# == Define: ca
+# @summary Install individual root CAs
 #
-# This define installs individual root CAs
-#
-#
-# === Parameters
-#
-# [*source*]
+# @param source
 #   Path to the certificate PEM.
 #   Must specify either content or source.
 #
-# [*content*]
+# @param content
 #   Content of certificate in PEM format.
 #   Must specify either content or source.
 #
-# [*install_path*]
+# @param install_path
 #   Location to install trusted certificates
 #
-# [*certfile_suffix*]
+# @param certfile_suffix
 #   The suffix of the certificate to install.
 #   Default is OS/Distribution dependent, i.e. 'crt' or 'pem'
 #
-# === Examples
+# @example Installation
+#   include trusted_ca
 #
-# * Installation:
-#     class { 'trusted_ca': }
+#   trusted_ca::ca { 'example.org.local':
+#     source => 'puppet:///data/ssl/example.com.pem',
+#   }
 #
-#     trusted_ca::ca { 'example.org.local':
-#       source  => puppet:///data/ssl/example.com.pem
-#     }
+#   trusted_ca::ca { 'example.net.local':
+#     content  => lookup('example-net-x509'),
+#   }
 #
-#     trusted_ca::ca { 'example.net.local':
-#       content  => hiera("example-net-x509")
-#     }
-#
-# === Authors
-#
-# * Justin Lambert <mailto:jlambert@eml.cc>
+# @author Justin Lambert <mailto:jlambert@eml.cc>
 #
 define trusted_ca::ca (
   Optional[String] $source = undef,

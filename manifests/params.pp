@@ -1,5 +1,5 @@
-# Class trusted_ca::params
-#
+# @summary Default parameters
+# @api private
 class trusted_ca::params {
   $certificates_version = 'installed'
 

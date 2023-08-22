@@ -78,7 +78,7 @@ Install a certificate into the system's global trusted keystore from a PEM-encod
 ```puppet
     class { 'trusted_ca': }
     trusted_ca::ca { 'example.net':
-      content => hiera("example-net-x509"),
+      content => lookup('example-net-x509'),
     }
 ```
 
