@@ -1,39 +1,29 @@
-# == Define: java
+# @summary install certs to a java cacerts file
 #
-# This define installs certs to a java cacerts file
-#
-#
-# === Parameters
-#
-# [*java_keystore*]
+# @param java_keystore
 #   Location of java cacerts file
 #   This must be specified - there is no default.
 #
-# [*source*]
+# @param source
 #   Path to the certificate PEM.
 #   Must specify either content or source.
 #
-# [*content*]
+# @param content
 #   Content of certificate in PEM format.
 #   Must specify either content or source.
 #
+# @example Installation
+#   include trusted_ca
 #
-# === Examples
+#   trusted_ca::java { 'example.org.local':
+#     source => 'puppet:///data/ssl/example.com.pem',
+#   }
 #
-# * Installation:
-#     class { 'trusted_ca': }
+#   trusted_ca::java { 'example.net.local':
+#     content  => lookup('example-net-x509'),
+#   }
 #
-#     trusted_ca::java { 'example.org.local':
-#       source  => puppet:///data/ssl/example.com.pem
-#     }
-#
-#     trusted_ca::java { 'example.net.local':
-#       content  => hiera("example-net-x509")
-#     }
-#
-# === Authors
-#
-# * Justin Lambert <mailto:jlambert@eml.cc>
+# @author Justin Lambert <mailto:jlambert@eml.cc>
 #
 define trusted_ca::java (
   Stdlib::Absolutepath $java_keystore,

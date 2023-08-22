@@ -1,26 +1,13 @@
-# == Class: trusted_ca
+# @summary install additional trusted root CAs
 #
-# This class installs additional trusted root CAs
+# @example Installation
+#   include trusted_ca
 #
+#   trusted_ca::ca { 'example.org.local':
+#     source => 'puppet:///data/ssl/example.com.pem',
+#   }
 #
-# === Parameters
-#
-# None
-#
-#
-# === Examples
-#
-# * Installation:
-#
-#     include trusted_ca
-#     trusted_ca::ca { 'example.org.local':
-#       source  => puppet:///data/ssl/example.com.pem
-#     }
-#
-#
-# === Authors
-#
-# * Justin Lambert <mailto:jlambert@eml.cc>
+# @author Justin Lambert <mailto:jlambert@eml.cc>
 #
 class trusted_ca (
   String $certificates_version = $trusted_ca::params::certificates_version,
