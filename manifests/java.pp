@@ -36,38 +36,19 @@ define trusted_ca::java (
 
   if $source and $content {
     fail('You must not specify both $source and $content for trusted_ca defined resources')
-  }
-
-  if $source {
-    file { "/tmp/${name}-trustedca":
-      ensure => 'file',
-      source => $source,
-      notify => Exec["validate /tmp/${name}-trustedca"],
-      mode   => '0644',
-      owner  => 'root',
-      group  => 'root',
-    }
-  } elsif $content {
-    file { "/tmp/${name}-trustedca":
-      ensure  => 'file',
-      content => $content,
-      notify  => Exec["validate /tmp/${name}-trustedca"],
-      mode    => '0644',
-      owner   => 'root',
-      group   => 'root',
-    }
-  } else {
+  } elsif !$source and !$content {
     fail('You must specify either $source or $content for trusted_ca defined resources')
   }
 
-  # This makes sure the certificate is valid
-  exec { "validate /tmp/${name}-trustedca":
-    command     => "openssl x509 -in /tmp/${name}-trustedca -noout",
-    logoutput   => on_failure,
-    path        => $trusted_ca::path,
-    notify      => Exec["import /tmp/${name}-trustedca to jks ${java_keystore}"],
-    returns     => 0,
-    refreshonly => true,
+  file { "/tmp/${name}-trustedca":
+    ensure       => 'file',
+    source       => $source,
+    content      => $content,
+    mode         => '0644',
+    owner        => 'root',
+    group        => 'root',
+    validate_cmd => '/usr/bin/openssl x509 -in %s -noout',
+    notify       => Exec["import /tmp/${name}-trustedca to jks ${java_keystore}"],
   }
 
   exec { "import /tmp/${name}-trustedca to jks ${java_keystore}":
