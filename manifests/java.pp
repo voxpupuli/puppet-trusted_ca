@@ -12,6 +12,9 @@
 #   Content of certificate in PEM format.
 #   Must specify either content or source.
 #
+# @param filename
+#   The intermediate filename to use
+#
 # @example Installation
 #   include trusted_ca
 #
@@ -29,6 +32,7 @@ define trusted_ca::java (
   Stdlib::Absolutepath $java_keystore,
   Optional[String] $source = undef,
   Optional[Pattern['^[A-Za-z0-9+/\n=-]+$']] $content = undef,
+  Stdlib::Absolutepath $filename = "/tmp/${name}-trustedca",
 ) {
   if ! defined(Class['trusted_ca']) {
     fail('You must include the trusted_ca base class before using any trusted_ca defined resources')
@@ -40,7 +44,7 @@ define trusted_ca::java (
     fail('You must specify either $source or $content for trusted_ca defined resources')
   }
 
-  file { "/tmp/${name}-trustedca":
+  file { $filename:
     ensure       => 'file',
     source       => $source,
     content      => $content,
@@ -48,11 +52,11 @@ define trusted_ca::java (
     owner        => 'root',
     group        => 'root',
     validate_cmd => '/usr/bin/openssl x509 -in %s -noout',
-    notify       => Exec["import /tmp/${name}-trustedca to jks ${java_keystore}"],
+    notify       => Exec["import ${filename} to jks ${java_keystore}"],
   }
 
-  exec { "import /tmp/${name}-trustedca to jks ${java_keystore}":
-    command   => "keytool -import -noprompt -trustcacerts -alias ${name} -file /tmp/${name}-trustedca -keystore ${java_keystore} -storepass changeit",
+  exec { "import ${filename} to jks ${java_keystore}":
+    command   => "keytool -import -noprompt -trustcacerts -alias ${name} -file ${filename} -keystore ${java_keystore} -storepass changeit",
     cwd       => '/tmp',
     path      => $trusted_ca::path,
     logoutput => on_failure,
