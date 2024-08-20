@@ -21,11 +21,11 @@ describe 'trusted_ca' do
       apply_manifest(pp, catch_failures: true)
     end
 
-    describe command("/usr/bin/curl https://#{fact('hostname')}.example.com:443") do
+    describe command("/usr/bin/curl https://#{fact('fqdn')}:443") do
       its(:exit_status) { is_expected.to eq 60 }
     end
 
-    describe command("cd /root && /usr/bin/java SSLPoke #{fact('hostname')}.example.com 443") do
+    describe command("cd /root && /usr/bin/java SSLPoke #{fact('fqdn')} 443") do
       its(:exit_status) { is_expected.to eq 1 }
     end
   end
@@ -34,7 +34,7 @@ describe 'trusted_ca' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
       class { 'trusted_ca': }
-      trusted_ca::ca { 'test': source => '/etc/ssl-secure/test.crt' }
+      trusted_ca::ca { 'test': source => '/etc/ssl-secure/ca.crt' }
       EOS
 
       # Run it twice and test for idempotency
@@ -48,11 +48,11 @@ describe 'trusted_ca' do
 
     # https://github.com/rubocop/rubocop-rspec/issues/1231
     # rubocop:disable RSpec/RepeatedExampleGroupBody
-    describe command("/usr/bin/curl https://#{fact('hostname')}.example.com:443") do
+    describe command("/usr/bin/curl https://#{fact('fqdn')}:443") do
       its(:exit_status) { is_expected.to eq 0 }
     end
 
-    describe command("cd /root && /usr/bin/java SSLPoke #{fact('hostname')}.example.com 443") do
+    describe command("cd /root && /usr/bin/java SSLPoke #{fact('fqdn')} 443") do
       its(:exit_status) { is_expected.to eq 0 }
     end
     # rubocop:enable RSpec/RepeatedExampleGroupBody
