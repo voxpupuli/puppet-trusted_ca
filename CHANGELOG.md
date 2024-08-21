@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v5.1.0) (2024-08-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- Support Debian 11 & 12 + Ubuntu 22.04 & 24.04 [\#70](https://github.com/voxpupuli/puppet-trusted_ca/pull/70) ([ekohl](https://github.com/ekohl))
+- Support EL 9: Avoid running update-ca-trust twice [\#69](https://github.com/voxpupuli/puppet-trusted_ca/pull/69) ([ekohl](https://github.com/ekohl))
+- Convert to puppet-strings documentation [\#61](https://github.com/voxpupuli/puppet-trusted_ca/pull/61) ([ekohl](https://github.com/ekohl))
+- Use validate\_cmd & expose filename parameter [\#60](https://github.com/voxpupuli/puppet-trusted_ca/pull/60) ([ekohl](https://github.com/ekohl))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-trusted_ca/tree/v5.0.0) (2023-08-02)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-trusted_ca/compare/v4.1.0...v5.0.0)
