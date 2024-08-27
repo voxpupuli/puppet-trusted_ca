@@ -51,7 +51,7 @@ define trusted_ca::java (
     mode         => '0644',
     owner        => 'root',
     group        => 'root',
-    validate_cmd => '/usr/bin/openssl x509 -in %s -noout',
+    validate_cmd => '/usr/bin/openssl x509 -in % -noout',
     notify       => Exec["import ${filename} to jks ${java_keystore}"],
   }
 
