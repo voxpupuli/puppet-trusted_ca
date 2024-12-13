@@ -9,7 +9,7 @@ describe 'trusted_ca' do
         let(:facts) { facts }
 
         context 'ca-certificates' do
-          package_name = if facts[:osfamily] == 'Suse' && facts[:operatingsystem] == 'SLES' && facts[:operatingsystemmajrelease] == '11'
+          package_name = if facts['os.family'] == 'Suse' && facts['os.name'] == 'SLES' && facts['os.release.major'] == '11'
                            'openssl-certs'
                          else
                            'ca-certificates'
