@@ -31,7 +31,7 @@ describe 'trusted_ca::ca' do
         end
 
         context 'ca cert' do
-          case facts[:osfamily]
+          case facts['os.family']
           when 'RedHat'
             source = 'puppet:///data/mycert.crt'
             file = '/etc/pki/ca-trust/source/anchors/mycert.crt'
@@ -41,8 +41,8 @@ describe 'trusted_ca::ca' do
             file = '/usr/local/share/ca-certificates/mycert.crt'
             notify = 'Exec[validate /usr/local/share/ca-certificates/mycert.crt]'
           when 'Suse'
-            if facts[:operatingsystem] == 'SLES'
-              if facts[:operatingsystemmajrelease] == '11'
+            if facts['os.name'] == 'SLES'
+              if facts['os.relase.major'] == '11'
                 file = '/etc/ssl/certs/mycert.pem'
                 notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
                 source = 'puppet:///data/mycert.pem'
