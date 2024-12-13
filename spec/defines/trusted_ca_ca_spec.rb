@@ -36,25 +36,35 @@ describe 'trusted_ca::ca' do
             source = 'puppet:///data/mycert.crt'
             file = '/etc/pki/ca-trust/source/anchors/mycert.crt'
             notify = 'Exec[validate /etc/pki/ca-trust/source/anchors/mycert.crt]'
+            install_path = '/etc/pki/ca-trust/source/anchors'
+            certfile_suffix = 'crt'
           when 'Debian'
             source = 'puppet:///data/mycert.crt'
             file = '/usr/local/share/ca-certificates/mycert.crt'
             notify = 'Exec[validate /usr/local/share/ca-certificates/mycert.crt]'
+            install_path = '/etc/pki/ca-trust/source/anchors'
+            certfile_suffix = 'crt'
           when 'Suse'
             if facts['os.name'] == 'SLES'
               if facts['os.relase.major'] == '11'
                 file = '/etc/ssl/certs/mycert.pem'
                 notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
                 source = 'puppet:///data/mycert.pem'
+                install_path = '/etc/ssl/certs'
+                certfile_suffix = 'pem'
               else
                 file = '/etc/pki/trust/anchors/mycert.crt'
                 notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
                 source = 'puppet:///data/mycert.crt'
+                install_path = '/etc/pki/trust/anchors'
+                certfile_suffix = 'crt'
               end
             else
               file = '/etc/pki/trust/anchors/mycert.crt'
               notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
               source = 'puppet:///data/mycert.crt'
+              install_path = '/etc/pki/trust/anchors'
+              certfile_suffix = 'crt'
             end
           end
 
