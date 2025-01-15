@@ -51,7 +51,6 @@ define trusted_ca::java (
     mode         => '0644',
     owner        => 'root',
     group        => 'root',
-    #validate_cmd => '/usr/bin/openssl x509 -in % -noout',
     notify       => Exec["validate ${filename} contents"],
   }
 
