@@ -61,6 +61,6 @@ define trusted_ca::java (
     path      => $trusted_ca::path,
     logoutput => on_failure,
     unless    => "echo '' | keytool -list -keystore ${java_keystore} | grep -i ${name}",
-    require   => File["/tmp/${name}-trustedca"],
+    require   => File[$filename],
   }
 }
