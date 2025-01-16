@@ -49,10 +49,10 @@ describe 'trusted_ca::java' do
         end
 
         context 'with filename' do
-          let(:local_params) { { filename: '/path/to/file' } }
+          let(:local_params) { { content: 'abc', filename: '/path/to/file' } }
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_exec('import /path/to/file to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts').that_requires('/path/to/file') }
+          it { is_expected.to contain_exec('import /path/to/file to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts').that_requires('File[/path/to/file]') }
         end
       end
     end
