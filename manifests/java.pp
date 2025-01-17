@@ -55,7 +55,7 @@ define trusted_ca::java (
   }
 
   exec { "validate ${filename} contents":
-    command     => "/usr/bin/openssl x509 -in ${filename} -noout",
+    command     => "openssl x509 -in ${filename} -noout",
     cwd         => '/tmp',
     path        => $trusted_ca::path,
     logoutput   => on_failure,
