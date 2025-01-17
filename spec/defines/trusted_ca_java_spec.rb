@@ -45,7 +45,6 @@ describe 'trusted_ca::java' do
           it do
             is_expected.to contain_exec('validate /tmp/mycert-trustedca contents'). \
               with_command('openssl x509 -in /tmp/mycert-trustedca -noout').that_notifies('Exec[import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts]')
-
           end
 
           it do
