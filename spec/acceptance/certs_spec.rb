@@ -57,4 +57,17 @@ describe 'trusted_ca' do
     end
     # rubocop:enable RSpec/RepeatedExampleGroupBody
   end
+
+  context 'invalid certificate' do
+    it 'refuses to apply' do
+      pp = <<-EOS
+      include trusted_ca
+      trusted_ca::ca { 'test':
+        content => 'invalid',
+      }
+      EOS
+
+      apply_manifest(pp, expect_failures: true)
+    end
+  end
 end
