@@ -8,7 +8,7 @@
 #   }
 #
 # @author Justin Lambert <mailto:jlambert@eml.cc>
-#
+#  
 class trusted_ca (
   String $certificates_version = $trusted_ca::params::certificates_version,
   Variant[Array[String], String] $path = $trusted_ca::params::path,
