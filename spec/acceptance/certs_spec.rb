@@ -47,7 +47,7 @@ describe 'trusted_ca' do
     end
 
     if fact('os.family') == 'Debian' && fact('os.release.major') == '11'
-      describe command('/usr/sbin/update-ca-certificates -f') do
+      describe command('/usr/sbin/update-ca-certificates') do
         its(:exit_status) { is_expected.to eq 0 }
       end
     end
