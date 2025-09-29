@@ -46,6 +46,12 @@ describe 'trusted_ca' do
       it { is_expected.to be_installed }
     end
 
+    if fact('os.family') == 'Debian' && fact('os.release.major') == '11'
+      describe package('ca-certificates-java') do
+        it { is_expected.to be_installed }
+      end
+    end
+
     # https://github.com/rubocop/rubocop-rspec/issues/1231
     # rubocop:disable RSpec/RepeatedExampleGroupBody
     describe command("/usr/bin/curl https://#{fact('fqdn')}:443") do
