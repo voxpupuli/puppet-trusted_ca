@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-trusted_ca.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-trusted_ca)
+![Build Status](https://github.com/voxpupuli/puppet-trusted_ca/actions/workflows/ci.yml/badge.svg?branch=master)
 [![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-trusted_ca/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-trusted_ca)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/trusted_ca.svg)](https://forge.puppetlabs.com/puppet/trusted_ca)
