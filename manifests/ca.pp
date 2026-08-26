@@ -40,6 +40,8 @@ define trusted_ca::ca (
 
   if $source and $content {
     fail('You must not specify both $source and $content for trusted_ca defined resources')
+  } elsif !$source and !$content {
+    fail('You must specify either $source or $content for trusted_ca defined resources')
   }
 
   if $name =~ Pattern["\\.${certfile_suffix}$"] {
@@ -48,35 +50,14 @@ define trusted_ca::ca (
     $_name = "${name}.${certfile_suffix}"
   }
 
-  if $source {
-    file { "${install_path}/${_name}":
-      ensure => 'file',
-      source => $source,
-      notify => Exec["validate ${install_path}/${_name}"],
-      mode   => '0644',
-      owner  => 'root',
-      group  => 'root',
-    }
-  } elsif $content {
-    file { "${install_path}/${_name}":
-      ensure  => 'file',
-      content => $content,
-      notify  => Exec["validate ${install_path}/${_name}"],
-      mode    => '0644',
-      owner   => 'root',
-      group   => 'root',
-    }
-  } else {
-    fail('You must specify either $source or $content for trusted_ca defined resources')
-  }
-
-  # This makes sure the certificate is valid
-  exec { "validate ${install_path}/${_name}":
-    command     => "openssl x509 -in ${install_path}/${_name} -noout",
-    logoutput   => on_failure,
-    path        => $trusted_ca::path,
-    notify      => Exec['update_system_certs'],
-    returns     => 0,
-    refreshonly => true,
+  file { "${install_path}/${_name}":
+    ensure       => 'file',
+    content      => $content,
+    source       => $source,
+    notify       => Exec['update_system_certs'],
+    mode         => '0644',
+    owner        => 'root',
+    group        => 'root',
+    validate_cmd => 'openssl x509 -in % -noout',
   }
 }

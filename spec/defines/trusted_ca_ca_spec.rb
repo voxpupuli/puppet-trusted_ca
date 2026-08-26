@@ -34,26 +34,21 @@ describe 'trusted_ca::ca' do
           case facts[:os]['family']
           when 'RedHat'
             file = '/etc/pki/ca-trust/source/anchors/mycert.crt'
-            notify = 'Exec[validate /etc/pki/ca-trust/source/anchors/mycert.crt]'
             source = 'puppet:///data/mycert.crt'
           when 'Debian'
             file = '/usr/local/share/ca-certificates/mycert.crt'
-            notify = 'Exec[validate /usr/local/share/ca-certificates/mycert.crt]'
             source = 'puppet:///data/mycert.crt'
           when 'Suse'
             if facts[:operatingsystem] == 'SLES'
               if facts[:operatingsystemmajrelease] == '11'
                 file = '/etc/ssl/certs/mycert.pem'
-                notify = 'Exec[validate /etc/ssl/certs/mycert.pem]'
                 source = 'puppet:///data/mycert.pem'
               else
                 file = '/etc/pki/trust/anchors/mycert.crt'
-                notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
                 source = 'puppet:///data/mycert.crt'
               end
             else
               file = '/etc/pki/trust/anchors/mycert.crt'
-              notify = 'Exec[validate /etc/pki/trust/anchors/mycert.crt]'
               source = 'puppet:///data/mycert.crt'
             end
           end
@@ -61,7 +56,7 @@ describe 'trusted_ca::ca' do
           let(:params) { { source: source } }
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_file(file).that_notifies(notify) }
+          it { is_expected.to contain_file(file).that_notifies('Exec[update_system_certs]') }
         end
       end
     end
