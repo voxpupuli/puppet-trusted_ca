@@ -39,6 +39,40 @@ describe 'trusted_ca' do
             it { is_expected.to contain_exec('update_system_certs').with(refreshonly: true, path: '/usr/bin') }
           end
         end
+
+        context 'when ca_certificates parameter is set' do
+          let(:params) do
+            {
+              ca_certificates: {
+                'example_ca.crt': {
+                  source: 'file:///example_ca.crt',
+                },
+              },
+            }
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to have_trusted_ca__ca_resource_count(1) }
+          it { is_expected.to contain_trusted_ca__ca('example_ca.crt').with_source('file:///example_ca.crt') }
+        end
+
+        context 'when java_keystores parameter is set' do
+          let(:params) do
+            {
+              java_keystores: {
+                example_ca: {
+                  java_keystore: '/etc/pki/java/example.jks',
+                  source: 'file:///example_ca.crt',
+                },
+              },
+            }
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to have_trusted_ca__java_resource_count(1) }
+          it { is_expected.to contain_trusted_ca__java('example_ca').with_source('file:///example_ca.crt') }
+          it { is_expected.to contain_trusted_ca__java('example_ca').with_java_keystore('/etc/pki/java/example.jks') }
+        end
       end
     end
   end

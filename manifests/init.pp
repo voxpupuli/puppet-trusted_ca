@@ -7,6 +7,8 @@
 # @param update_command Command to rebuild the system-trusted certificates
 # @param certfile_suffix Suffix of certificate files. Default is OS/Distribution dependent, i.e. `pem` or `crt`
 # @param certs_package Package name of the distribution-specific trusted certificates. Default is OS/Distribution specific
+# @param ca_certificates Specifies a hash from which to generate `Trusted_ca::Ca` resources
+# @param java_keystores Specifies a hash from which to generate `Trusted_ca::Java` resources
 #
 # @example Installation
 #   include trusted_ca
@@ -24,6 +26,8 @@ class trusted_ca (
   String $update_command = $trusted_ca::params::update_command,
   String $certfile_suffix = $trusted_ca::params::certfile_suffix,
   String $certs_package = $trusted_ca::params::certs_package,
+  Stdlib::CreateResources $ca_certificates = {},
+  Stdlib::CreateResources $java_keystores = {},
 ) inherits trusted_ca::params {
   stdlib::ensure_packages([$certs_package], { ensure => $certificates_version })
 
@@ -32,5 +36,17 @@ class trusted_ca (
     path        => $path,
     logoutput   => on_failure,
     refreshonly => true,
+  }
+
+  $ca_certificates.each |String $ca_name, Hash $ca_attrs| {
+    trusted_ca::ca { $ca_name:
+      * => $ca_attrs,
+    }
+  }
+
+  $java_keystores.each |String $java_ks_name, Hash $java_ks_attrs| {
+    trusted_ca::java { $java_ks_name:
+      * => $java_ks_attrs,
+    }
   }
 }

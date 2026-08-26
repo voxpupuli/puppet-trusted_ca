@@ -47,6 +47,8 @@ The following parameters are available in the `trusted_ca` class:
 * [`update_command`](#-trusted_ca--update_command)
 * [`certfile_suffix`](#-trusted_ca--certfile_suffix)
 * [`certs_package`](#-trusted_ca--certs_package)
+* [`ca_certificates`](#-trusted_ca--ca_certificates)
+* [`java_keystores`](#-trusted_ca--java_keystores)
 
 ##### <a name="-trusted_ca--certificates_version"></a>`certificates_version`
 
@@ -95,6 +97,22 @@ Data type: `String`
 Package name of the distribution-specific trusted certificates. Default is OS/Distribution specific
 
 Default value: `$trusted_ca::params::certs_package`
+
+##### <a name="-trusted_ca--ca_certificates"></a>`ca_certificates`
+
+Data type: `Stdlib::CreateResources`
+
+Specifies a hash from which to generate `Trusted_ca::Ca` resources
+
+Default value: `{}`
+
+##### <a name="-trusted_ca--java_keystores"></a>`java_keystores`
+
+Data type: `Stdlib::CreateResources`
+
+Specifies a hash from which to generate `Trusted_ca::Java` resources
+
+Default value: `{}`
 
 ## Defined types
 

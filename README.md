@@ -82,6 +82,23 @@ Install a certificate into the system's global trusted keystore from a PEM-encod
     }
 ```
 
+Create a `trusted_ca::ca` resource via Hiera
+
+```puppet
+include trusted_ca
+```
+
+```yaml
+trusted_ca::ca_certificates:
+  'example_1_ca.crt':
+    source: 'file:///example_ca.crt'
+  'example_2_ca.crt':
+    content: |
+      -----BEGIN CERTIFICATE-----
+      <base64 encoded certificate>
+      -----END CERTIFICATE-----
+```
+
 ## Reference
 
 Reference documentation for the trusted_ca module is generated using [puppet-strings](https://docs.openvoxproject.org/openvox/latest/openvox_strings.html) and available in [REFERENCE.md](REFERENCE.md)
