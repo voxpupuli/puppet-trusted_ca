@@ -84,75 +84,7 @@ Install a certificate into the system's global trusted keystore from a PEM-encod
 
 ## Reference
 
-### Public classes
-
-#### `trusted_ca`
-
-##### `certificates_version`
-
-String.  Version of the distribution-specific trusted certificates.  Examples would be 'latest' or a specific version.
-
-##### `certs_package`
-
-String.  Package name of the distribution-specific trusted certificates. Default is OS/Distribution specific.
-
-##### `path`
-
-String/Array of String.  List of paths for the `update_command`.
-
-##### `install_path`
-
-String.  Location to install the trusted certificates.
-
-##### `update_command`
-
-String.  Command to rebuild the system-trusted certificates.
-
-##### `certfile_suffix`
-
-String.  Suffix of certificate files. Default is OS/Distribution dependent, i.e. 'pem' or 'crt'.
-
-### Public defines
-
-#### `trusted_ca::ca`
-
-##### `source`
-
-String.  Source of the certificate to include.  Must be a file in PEM format with crt extension.
-You must specify either source or content, but not both. If source is specified, content is ignored.
-
-##### `content`
-
-String.  Content of certificate in PEM format.
-You must specify either source or content, but not both. If source is specified, content is ignored.
-
-##### `install_path`
-
-String.  Destination of the certificate file for processing.  Defaults to the install_path from the class, but can be overridden per certificate.
-
-##### `certfile_suffix`
-
-String.  Suffix of certificate files. Default is OS/Distribution dependent, i.e. 'pem' or 'crt'.
-
-#### `trusted_ca::java`
-
-##### `source`
-
-String.  Source of the certificate to include.  Must be a file in PEM format with crt extension.
-You must specify either source or content, but not both. If source is specified, content is ignored.
-
-##### `content`
-
-String.  Content of certificate in PEM format.
-You must specify either source or content, but not both. If source is specified, content is ignored.
-
-##### `java_keystore`
-
-String.  Location of of the java cacerts keystore file.
-
-### Private classes
-
-* trusted_ca::params: Defaults for the trusted_ca module
+Reference documentation for the trusted_ca module is generated using [puppet-strings](https://docs.openvoxproject.org/openvox/latest/openvox_strings.html) and available in [REFERENCE.md](REFERENCE.md)
 
 ## Limitations
 
