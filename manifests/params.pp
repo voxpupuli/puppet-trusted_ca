@@ -1,8 +1,6 @@
 # @summary Default parameters
 # @api private
 class trusted_ca::params {
-  $certificates_version = 'installed'
-
   case $facts['os']['family'] {
     'RedHat': {
       $path = ['/usr/bin', '/bin']

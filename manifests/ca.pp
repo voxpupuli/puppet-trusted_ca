@@ -13,7 +13,7 @@
 #
 # @param certfile_suffix
 #   The suffix of the certificate to install.
-#   Default is OS/Distribution dependent, i.e. 'crt' or 'pem'
+#   Default is OS/Distribution dependent, i.e. `crt` or `pem`
 #
 # @example Installation
 #   include trusted_ca
