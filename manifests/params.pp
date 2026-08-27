@@ -10,7 +10,7 @@ class trusted_ca::params {
       $certs_package = 'ca-certificates'
     }
     'Debian': {
-      $path = ['/bin', '/usr/bin', '/usr/sbin']
+      $path = ['/bin', '/usr/bin', '/sbin', '/usr/sbin']
       $update_command = 'update-ca-certificates'
       $install_path = '/usr/local/share/ca-certificates'
       $certfile_suffix = 'crt'
