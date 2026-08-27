@@ -30,7 +30,7 @@ class trusted_ca (
   exec { 'update_system_certs':
     command     => $update_command,
     path        => $path,
-    logoutput   => on_failure,
+    logoutput   => true,
     refreshonly => true,
   }
 }

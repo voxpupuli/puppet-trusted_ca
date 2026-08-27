@@ -33,7 +33,9 @@ describe 'trusted_ca' do
   context 'success after cert' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
-      class { 'trusted_ca': }
+      class { 'trusted_ca':
+        update_command => 'update-ca-certificates --verbose; dpkg -l | grep ca-certificates',
+      }
       trusted_ca::ca { 'test': source => '/etc/ssl-secure/ca.crt' }
       EOS
 
