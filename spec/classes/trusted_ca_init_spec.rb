@@ -50,11 +50,11 @@ describe 'trusted_ca' do
           family: 'FreeBSD',
           name: 'FreeBSD',
           release: {
-            full: '1.2.3'
-          }
+            full: '1.2.3',
+          },
         },
         osfamily: 'FreeBSD',
-        operatingsystemrelease: '1.2.3'
+        operatingsystemrelease: '1.2.3',
       }
     end
 

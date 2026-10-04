@@ -43,8 +43,8 @@ describe 'trusted_ca::java' do
           it { is_expected.to contain_file('/tmp/mycert-trustedca') }
 
           it do
-            is_expected.to contain_exec('import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts'). \
-              with_command('keytool -import -noprompt -trustcacerts -alias mycert -file /tmp/mycert-trustedca -keystore /etc/alternatives/jre_1.7.0/lib/security/cacerts -storepass changeit')
+            is_expected.to contain_exec('import /tmp/mycert-trustedca to jks /etc/alternatives/jre_1.7.0/lib/security/cacerts')
+              .with_command('keytool -import -noprompt -trustcacerts -alias mycert -file /tmp/mycert-trustedca -keystore /etc/alternatives/jre_1.7.0/lib/security/cacerts -storepass changeit')
           end
         end
 
