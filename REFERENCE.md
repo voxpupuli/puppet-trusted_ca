@@ -223,4 +223,3 @@ Data type: `Stdlib::Absolutepath`
 The intermediate filename to use
 
 Default value: `"/tmp/${name}-trustedca"`
-
